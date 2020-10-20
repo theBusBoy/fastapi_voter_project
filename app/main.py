@@ -41,6 +41,14 @@ def read_voter(voter_id: int, db: Session = Depends(get_db)):
     return db_voter
 
 
+@app.get('/api/v1/challenged_voters/', response_model=List[schemas.Voter])
+def read_voter(db: Session = Depends(get_db)):
+    db_voters = crud.get_voters_by_ballot_status(db)
+    if db_voters is None:
+        raise HTTPException(status_code=404, detail=f"No challenged ballots found")
+    return db_voters
+
+
 def main():
     app.run(
         host='0.0.0.0'
