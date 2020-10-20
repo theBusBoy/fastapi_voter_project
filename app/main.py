@@ -27,25 +27,37 @@ def get_db():
 
 @app.get('/api/v1/voters/', response_model=List[schemas.Voter])
 def get_voter_by_name(
-        firstName: str = Header(None, convert_underscores=False),
-        lastName: str = Header(None, convert_underscores=False),
+        first_name: str = Header(None, convert_underscores=False),
+        last_name: str = Header(None, convert_underscores=False),
         db: Session = Depends(get_db)):
-    db_voters = crud.get_voters_by_name(db, first_name=firstName, last_name=lastName)
+    db_voters = crud.get_voters_by_name(db, first_name=first_name, last_name=last_name)
     if db_voters is None:
-        raise HTTPException(status_code=404, detail=f"No entries found for {firstName} {lastName}")
+        raise HTTPException(status_code=404, detail=f"No entries found for {first_name} {last_name}")
     return db_voters
 
 
 @app.get('/api/v1/voter_history/')
 def get_voter_history_by_name(
-        firstName: str = Header(None, convert_underscores=False),
-        lastName: str = Header(None, convert_underscores=False),
+        first_name: str = Header(None, convert_underscores=False),
+        last_name: str = Header(None, convert_underscores=False),
         db: Session = Depends(get_db)):
-    db_voters = crud.get_voters_by_name(db, first_name=firstName, last_name=lastName)
+    db_voters = crud.get_voters_by_name(db, first_name=first_name, last_name=last_name)
     if db_voters is None:
-        raise HTTPException(status_code=404, detail=f"No entries found for {firstName} {lastName}")
+        raise HTTPException(status_code=404, detail=f"No entries found for {first_name} {last_name}")
 
     return create_voter_dict(db_voters)
+
+
+@app.get('/api/v1/voters_with_county/', response_model=List[schemas.Voter])
+def get_voter_by_name_county(
+        first_name: str = Header(None, convert_underscores=False),
+        last_name: str = Header(None, convert_underscores=False),
+        county: str = Header(None, convert_underscores=False),
+        db: Session = Depends(get_db)):
+    db_voters = crud.get_voters_by_name_county(db, first_name=first_name, last_name=last_name, county=county)
+    if db_voters is None:
+        raise HTTPException(status_code=404, detail=f"No entries found for {first_name} {last_name}")
+    return db_voters
 
 
 @app.get('/api/v1/voters/{voter_id}', response_model=schemas.Voter)

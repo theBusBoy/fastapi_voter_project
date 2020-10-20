@@ -18,6 +18,14 @@ def get_voters_by_name(db: Session, first_name: str, last_name: str):
     ).all()
 
 
+def get_voters_by_name_county(db: Session, first_name: str, last_name: str, county: str):
+    return db.query(models.Voter).filter_by(
+        first_name=first_name.upper(),
+        last_name=last_name.upper(),
+        county=county.upper()
+    ).all()
+
+
 def get_challenged_voters(db: Session):
     return db.query(models.Voter).filter(
         models.Voter.ballot_status.in_(["C", "S"])
