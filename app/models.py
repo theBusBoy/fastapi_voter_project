@@ -47,5 +47,5 @@ class Voter(Base):
     party = Column(REAL)
 
     def __repr__(self):
-        return '<Voter: {} - Name: {} - Status: {}>'.\
+        return '<Voter: {} - Name: {} - Status: {}>'. \
             format(self.voter_id, self.first_name + " " + self.last_name, self.ballot_status)

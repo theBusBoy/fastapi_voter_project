@@ -10,7 +10,6 @@ URL = 'https://elections.sos.ga.gov/Elections/downLoadVPHFile.do?https://electio
 
 
 def download_data():
-    print('hello')
     if os.path.exists('Georgia_Voter_Data_Download.zip'):
         os.remove('Georgia_Voter_Data_Download.zip')
 
