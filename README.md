@@ -22,6 +22,6 @@ Installation:
 Docker Intallation:
 1. Navigate to the root of this project folder
 2. Run docker build -t \<name-of-your-image\> --build-arg PORT=\<number\> .
-3. Run docker run -d --name \<name of your container\> -p \<local-port-number\>:\<number from above\> \<name-of-your-image-from-above\>
+3. Run docker run -d --name \<name of your container\> --env PORT=\<number from above\> -p \<local-port-number\>:\<number from above\> \<name-of-your-image-from-above\>
 
 Finally, to access the endpoint docs navigate to localhost:port/docs
