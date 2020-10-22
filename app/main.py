@@ -1,4 +1,6 @@
 from fastapi import Depends, FastAPI, HTTPException, Header
+from fastapi.middleware.cors import CORSMiddleware
+
 from sqlalchemy.orm import Session
 
 from typing import List
@@ -13,6 +15,19 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     debug=True,
+)
+
+origins = [
+    "http://localhost:3000",
+    "https://georgia-voter-frontend.herokuapp.com/"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -58,6 +73,19 @@ def get_voter_by_name_county(
     if db_voters is None:
         raise HTTPException(status_code=404, detail=f"No entries found for {first_name} {last_name}")
     return db_voters
+
+
+@app.get('/api/v1/voter_history_with_county/')
+def get_voter_history_by_name_count(
+        first_name: str = Header(None, convert_underscores=False),
+        last_name: str = Header(None, convert_underscores=False),
+        county: str = Header(None, convert_underscores=False),
+        db: Session = Depends(get_db)):
+    db_voters = crud.get_voters_by_name_county(db, first_name=first_name, last_name=last_name, county=county)
+    if db_voters is None:
+        raise HTTPException(status_code=404, detail=f"No entries found for {first_name} {last_name}")
+
+    return create_voter_dict(db_voters)
 
 
 @app.get('/api/v1/voters/{voter_id}', response_model=schemas.Voter)
