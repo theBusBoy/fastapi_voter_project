@@ -17,14 +17,9 @@ app = FastAPI(
     debug=True,
 )
 
-origins = [
-    "http://localhost:3000",
-    "https://georgia-voter-frontend.herokuapp.com/"
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
