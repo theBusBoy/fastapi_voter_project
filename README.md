@@ -19,9 +19,9 @@ Installation:
 2. Run pip install -r requirements.txt
 3. Run setup.py
 
-Docker Intallation:
+Docker Installation:
 1. Navigate to the root of this project folder
 2. Run docker build -t \<name-of-your-image\> .
-3. Run docker run -d --name \<name of your container\> --env PORT=\<number from above\> -p \<local-port-number\>:\<number from above\> \<name-of-your-image-from-above\>
+3. Run docker run -d --name \<name of your container\> --env PORT=\<some-port\> -p \<local-port-number\>:\<some-port-from-earlier\> \<name-of-your-image-from-above\>
 
 Finally, to access the endpoint docs navigate to localhost:port/docs
